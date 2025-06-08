@@ -288,9 +288,6 @@ def train_xgboost_gpu(
         xgb_model.fit(
             X_train,
             y_train,
-            eval_set=[(X_test, y_test)],
-            eval_metric="mae",
-            early_stopping_rounds=50,
             verbose=False,
         )
 
@@ -298,10 +295,7 @@ def train_xgboost_gpu(
     mape = calculate_mape(y_test, y_pred)
     print(f"XGBoost (GPU) MAPE: {mape:.4f}%")
 
-    # Get training history if available
-    results = xgb_model.evals_result() if hasattr(xgb_model, "evals_result") else {}
-
-    return xgb_model, mape, results
+    return xgb_model, mape, {}
 
 
 def train_lightgbm_gpu(
